@@ -12,16 +12,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeRequests().anyRequest().authenticated()
-                .and()
-                .httpBasic();
+        http.csrf().disable()
+                .httpBasic()
+                .and().authorizeRequests()
+                .antMatchers("/index").permitAll()
+                .anyRequest().authenticated();
     }
 
+    @Override
     @Bean
     public UserDetailsService userDetailsService() {
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -32,6 +33,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(user);
         return manager;
-
     }
-}   
+
+    // @Autowired
+    // @Qualifier("datasource")
+    // private DataSource dataSource;
+
+    // @Autowired
+    // public void configureGlobal(AuthenticationManagerBuilder auth) throws
+    // Exception {
+    // auth.jdbcAuthentication().dataSource(dataSource)
+    // .authoritiesByUsernameQuery("select email, role FROM user where email=?")
+    // .usersByUsernameQuery("select email,password,active FROM employee where
+    // email=?");
+    // }
+}
