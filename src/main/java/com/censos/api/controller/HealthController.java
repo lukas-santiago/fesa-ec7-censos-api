@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/test")
-public class TestController {
-    @GetMapping(value = "/")
+public class HealthController {
+    @GetMapping(value = "/health")
     public String Entity() {
-        return "OK";
+        return "Server is up";
     }
 
 }
