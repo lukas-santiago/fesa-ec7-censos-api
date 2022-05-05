@@ -1,16 +1,11 @@
 package com.censos.api.controller;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-
-import javax.validation.Valid;
+import java.util.List;
 
 import com.censos.api.entity.Form;
-import com.censos.api.entity.Response;
+import com.censos.api.entity.FormHead;
 import com.censos.api.service.FormService;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,65 +21,30 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/form")
 @RequiredArgsConstructor
 public class FormController {
-    private final FormService formService;
+	private final FormService formService;
 
-    @GetMapping(value = "/")
-    public ResponseEntity<Response> getAll() {
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timeStamp(LocalDateTime.now())
-                        .data(Map.of("forms", formService.list()))
-                        .message("Forms retrieved")
-                        .status(HttpStatus.OK)
-                        .statusCode(HttpStatus.OK.value())
-                        .build());
-    }
+	@GetMapping(value = "/")
+	public List<Form> getAll() {
+		return formService.list();
+	}
 
-    @PostMapping(value = "/")
-    public ResponseEntity<Response> create(@RequestBody @Valid Form form) {
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timeStamp(LocalDateTime.now())
-                        .data(Map.of("form", formService.create(form)))
-                        .message("Form created")
-                        .status(HttpStatus.CREATED)
-                        .statusCode(HttpStatus.CREATED.value())
-                        .build());
-    }
+	@PostMapping(value = "/")
+	public Form create(@RequestBody FormHead formHead) {
+		return formService.create(formHead);
+	}
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Response> getOne(@PathVariable Long id) {
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timeStamp(LocalDateTime.now())
-                        .data(Map.of("form", formService.get(id)))
-                        .message("Form retrieved")
-                        .status(HttpStatus.OK)
-                        .statusCode(HttpStatus.OK.value())
-                        .build());
-    }
+	@GetMapping(value = "/{id}")
+	public Form getOne(@PathVariable Long id) {
+		return formService.get(id);
+	}
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Response> deleteOne(@PathVariable Long id) {
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timeStamp(LocalDateTime.now())
-                        .data(Map.of("deleted", formService.delete(id)))
-                        .message("Form deleted")
-                        .status(HttpStatus.OK)
-                        .statusCode(HttpStatus.OK.value())
-                        .build());
-    }
+	@DeleteMapping(value = "/{id}")
+	public Boolean deleteOne(@PathVariable Long id) {
+		return formService.delete(id);
+	}
 
-    @PutMapping(value = "/")
-    public ResponseEntity<Response> updateOne(@RequestBody @Valid Form form) {
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timeStamp(LocalDateTime.now())
-                        .data(Map.of("form", formService.update(form)))
-                        .message("Form updated")
-                        .status(HttpStatus.CREATED)
-                        .statusCode(HttpStatus.CREATED.value())
-                        .build());
-    }
+	@PutMapping(value = "/")
+	public Form updateOne(@RequestBody Form form) {
+		return formService.update(form);
+	}
 }

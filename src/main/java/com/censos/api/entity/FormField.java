@@ -1,14 +1,12 @@
 package com.censos.api.entity;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,17 +16,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Form {
+public class FormField {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
-    String code;
-    String name;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id", insertable = false, updatable = false)
+    Form form;
+    @Column(name = "field_id")
+    Long fieldId;
     String description;
-    @Column(name = "expired_at")
-    LocalDateTime expiredAt;
-    @Column(name = "user_id")
-    Long userId;
-    @OneToMany(mappedBy = "form")
-    List<FormField> fields;
+    String data;
 }

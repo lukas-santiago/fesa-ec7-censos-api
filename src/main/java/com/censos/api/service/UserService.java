@@ -1,6 +1,6 @@
 package com.censos.api.service;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -30,7 +30,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Collection<User> list() {
+    public List<User> list() {
         log.debug("Listing users");
         return userRepository.findAll();
     }
