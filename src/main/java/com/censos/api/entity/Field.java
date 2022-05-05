@@ -13,11 +13,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Field {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String name;
-    String email;
-    String password;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long id;
+    public String type;
 }

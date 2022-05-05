@@ -1,13 +1,12 @@
 package com.censos.api.service;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
 import com.censos.api.entity.Form;
-import com.censos.api.entity.User;
+import com.censos.api.entity.FormHead;
 import com.censos.api.repository.FormRepository;
-import com.censos.api.repository.UserRepository;
 
 import org.springframework.stereotype.Service;
 
@@ -22,17 +21,19 @@ public class FormService {
 
     private final FormRepository formRepository;
 
-    public Form create(Form form) {
-        Form findUserByName = formRepository.findUserByName(form.getName());
+    public Form create(FormHead formHead) {
+        Form findUserByName = formRepository.findByName(formHead.getName());
         if (findUserByName != null) {
             throw new RuntimeException("Already form exists");
         }
-        form.setId(null);
-        log.debug("Creating Form:" + form);
+        log.debug("Creating Form:" + formHead);
+
+        Form form = new Form(formHead.getId(), formHead.getCode(), formHead.getName(), formHead.getDescription(),
+                formHead.getExpiredAt(), formHead.getUserId(), null);
         return formRepository.save(form);
     }
 
-    public Collection<Form> list() {
+    public List<Form> list() {
         log.debug("Listing forms");
         return formRepository.findAll();
     }

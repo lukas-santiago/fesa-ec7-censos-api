@@ -20,7 +20,10 @@ public class UserTest {
         // I'd name the test to something like
         // invalidEmailShouldFailValidation()
 
-        User user = new User("username", "test@test.com", "authorities");
+        User user = new User();
+        user.setName("test"); 
+        user.setEmail("test@test.com");
+        user.setPassword("authorities");
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         
         for (ConstraintViolation<User> violation : violations) {
