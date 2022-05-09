@@ -1,6 +1,5 @@
 package com.censos.api.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,16 +9,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Answer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long id;
-    private String username;
-    private String email;
-    private String password;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String id;
+    private String answer;
+    private String form_id;
+    private String form_field_id;
+    private String user_id;
 }

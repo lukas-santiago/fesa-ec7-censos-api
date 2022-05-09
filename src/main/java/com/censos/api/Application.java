@@ -28,7 +28,7 @@ public class Application {
 	@Bean
 	public CommandLineRunner demoUserData(UserService service) {
 		User user = new User();
-		user.setName("Admin");
+		user.setUsername("Admin");
 		user.setEmail("admin@123.com");
 		user.setPassword("password@123");
 		return args -> {
@@ -43,9 +43,9 @@ public class Application {
 	}
 	@Bean
 	public CommandLineRunner demoFieldData(FieldRepository fieldRepository) {
-		Field textField = new Field(null, "Text");
-		Field longTextField = new Field(null, "Long Text");
-		Field SatisfactionDegreefield = new Field(null, "Satisfaction Degree");
+		Field textField = new Field(null, "Text", null);
+		Field longTextField = new Field(null, "Long Text", null);
+		Field SatisfactionDegreefield = new Field(null, "Satisfaction Degree", null);
 		
 		
 		return args -> {

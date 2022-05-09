@@ -19,12 +19,14 @@ import lombok.NoArgsConstructor;
 public class FormField {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "form_field_id")
     Long id;
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @ManyToOne()
+    @JoinColumn(name = "form_id")
     Form form;
-    @Column(name = "field_id")
-    Long fieldId;
+    @ManyToOne()
+    @JoinColumn(name ="field_id")
+    Field fieldId;
     String description;
     String data;
 }

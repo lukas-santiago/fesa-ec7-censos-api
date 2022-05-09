@@ -1,9 +1,9 @@
 package com.censos.api.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.censos.api.entity.Form;
-import com.censos.api.entity.FormHead;
 import com.censos.api.service.FormService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,8 +29,22 @@ public class FormController {
 	}
 
 	@PostMapping(value = "/")
-	public Form create(@RequestBody FormHead formHead) {
-		return formService.create(formHead);
+	public Form create(
+			@RequestBody Long id,
+			String code,
+			String name,
+			String description,
+			LocalDateTime expiredAt,
+			String createdBy) {
+
+		Form form = new Form();
+		form.setId(id);
+		form.setCode(code);
+		form.setName(name);
+		form.setDescription(description);
+		form.setExpiredAt(expiredAt);
+		form.setCreatedBy(createdBy);
+		return formService.create(form);
 	}
 
 	@GetMapping(value = "/{id}")
