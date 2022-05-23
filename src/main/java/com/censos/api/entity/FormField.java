@@ -2,6 +2,7 @@ package com.censos.api.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,12 +22,12 @@ public class FormField {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "form_field_id")
     Long id;
-    @ManyToOne()
-    @JoinColumn(name = "form_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "form_id", referencedColumnName = "form_id")
     Form form;
-    @ManyToOne()
-    @JoinColumn(name ="field_id")
-    Field fieldId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "field_id", referencedColumnName = "field_id")
+    Field field;
     String description;
     String data;
 }

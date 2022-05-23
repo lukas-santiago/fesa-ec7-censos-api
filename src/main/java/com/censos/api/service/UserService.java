@@ -21,11 +21,11 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User create(User user) {
-        User findUserByEmail = userRepository.findUserByEmail(user.getEmail());
-        if (findUserByEmail != null) {
+        Optional<User> findUserByEmail = userRepository.findByEmail(user.getEmail());
+        if (findUserByEmail.isEmpty()) {
             throw new RuntimeException("Already exists user with this email");
         }
-        user.setId(null);
+        // user.setId(null);
         log.debug("Creating user:" + user);
         return userRepository.save(user);
     }
