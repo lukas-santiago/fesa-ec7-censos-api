@@ -1,0 +1,22 @@
+EC7) Censos - Requisitos
+
+Autenticação de usuário (email/usuário e senha)
+/api/auth - authenticate, isAuthenticated
+
+Registro de usuário
+/api/register - register
+
+
+
+
+Gerenciamento de formulário
+/api/form - getAll, get, create, edit, delete
+
+Gerenciamento de campos do formulário
+/api/form/{id}/field - getAll, get, create, edit, delete, createAll
+
+Execução do formulário
+/api/form/{id}/execute - getAllFormData, edit
+
+Relatório
+/api/form/{id}/report/{type} - calculate 

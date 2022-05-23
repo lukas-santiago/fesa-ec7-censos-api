@@ -1,7 +1,9 @@
 package com.censos.api;
 
 import com.censos.api.entity.Field;
+import com.censos.api.entity.Role;
 import com.censos.api.repository.FieldRepository;
+import com.censos.api.repository.RoleRepository;
 import com.censos.api.security.SecurityAuditorAware;
 
 import org.springframework.boot.CommandLineRunner;
@@ -40,6 +42,21 @@ public class Application {
 				if (fieldRepository.findByType("Grau de Satisfação").isEmpty()) {
 					Field SatisfactionDegreefield = new Field(null, "Grau de Satisfação", null);
 					fieldRepository.save(SatisfactionDegreefield);
+				}
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
+		};
+	}
+
+	@Bean
+	public CommandLineRunner demoRoleData(RoleRepository roleRepository) {
+		return args -> {
+			try {
+				if (roleRepository.findByName("ROLE_ADMIN").isEmpty()) {
+					Role role = new Role();
+					role.setName("ROLE_ADMIN");
+					roleRepository.save(role);
 				}
 			} catch (Exception e) {
 				System.err.println(e.getMessage());

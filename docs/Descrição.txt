@@ -1,0 +1,47 @@
+EC7) Censos - Backend
+
+Aplicativo de cadastro de formulários para coleta de dados em massa com suporte a visualização dos resultados com dashboards.
+
+# Login - Para diferenciar os formulários criados e os usuários que os responderão
+# Sistema de gerenciamento de formulários
+
+Formulário
+- Número (Aleatório?)
+- Nome
+- Descrição
+- Autor
+- Data de validade do acesso
+- Data de criação
+- Data de modificação
+-> Cadastro de Campos
+
+Campos
+- Descrição
+-> Tipo de campo (
+	Texto,
+	Texto Longo,
+	Lista de Opções, 
+	Grau de Satisfação, 
+	Número, 
+	Número com limites
+  )
+-> Dados herdados pelo tipo de campo e escolha de dados Conformes e Não Conformes
+
+# Sistema de acesso ao formulário
+
+O Usuário receberá um link de acesso do formulário
+- Exemplo: http://sensos-ec7.com/form?query=F#!n12ue
+O Usuário após se logar, responderá os campos conforme a necessidade -> anônimo?
+Os dados serão salvos e atrelados ao usuário
+
+# Sistema de visualização de relatórios
+Caso seja antes da data de validade: o criador pode acessar o dashboard preliminar
+Caso seja depois da data de validade: o criador pode acessar o dashboard com o resumo das respostas consolidadas sem possibilidade de alteração
+
+Dados
+- Quantidade de respostas
+- Grau de dados 
+- Tabela com respostas distintas de determinado campo
+
+# Sistema de vizualização de formulários respondidos
+Tabela com formulários respondidos e com vizualização das respostas do usuário

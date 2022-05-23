@@ -1,0 +1,19 @@
+EC7) Censos - Banco - Tabelas
+
+user (id, name, email, password, created_on, updated_on)
+session (id, id_user, created_on, expired_at)
+form (id, code, name, description, expired_at, createdBy, created_on, updated_on)
+field (id, type)
+form_field (id, form_id, field_id, description, data_1, data_2, page)
+
+answer_form_field (id, user_id, form_id, form_field_id, answer)
+
+report_* (id, form_id, data)
+
+user - Armazenar usuários
+session - Armazenar sessões ativas de usuários e termina elas em caso de inatividade
+form - armazena os formulários criados pelos usuários
+field - tipos de campos disponíveis
+form_field - configuração dos campos do formulário, escolha da página do formulário
+report_* - tabelas customizadas para os relatórios
+report_summary - relatório com dados resumidos
