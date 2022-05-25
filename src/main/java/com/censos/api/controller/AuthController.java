@@ -3,6 +3,7 @@ package com.censos.api.controller;
 import java.util.Collections;
 
 import com.censos.api.entity.Role;
+import com.censos.api.entity.StringResponse;
 import com.censos.api.entity.User;
 import com.censos.api.payload.LoginDTO;
 import com.censos.api.payload.SignUpDTO;
@@ -39,23 +40,23 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/signin")
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginDTO loginDto) {
+    public ResponseEntity<StringResponse> authenticateUser(@RequestBody LoginDTO loginDto) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getUsernameOrEmail(), loginDto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("Usuário logado com sucesso!", HttpStatus.OK);
+        return new ResponseEntity<StringResponse>(new StringResponse("Usuário logado com sucesso!"), HttpStatus.OK);
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody SignUpDTO signUpDto) {
+    public ResponseEntity<StringResponse> registerUser(@RequestBody SignUpDTO signUpDto) {
 
         if (userRepository.existsByUsername(signUpDto.getUsername())) {
-            return new ResponseEntity<>("Nome de usuário já utilizado!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<StringResponse>(new StringResponse("Nome de usuário já utilizado!"), HttpStatus.BAD_REQUEST);
         }
 
         if (userRepository.existsByEmail(signUpDto.getEmail())) {
-            return new ResponseEntity<>("Email já utilizado!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<StringResponse>(new StringResponse("Email já utilizado!"), HttpStatus.BAD_REQUEST);
         }
 
         User user = new User();
@@ -69,7 +70,7 @@ public class AuthController {
 
         userRepository.save(user);
 
-        return new ResponseEntity<>("Usuário registrado com sucesso!", HttpStatus.OK);
+        return new ResponseEntity<StringResponse>(new StringResponse("Usuário registrado com sucesso!"), HttpStatus.OK);
 
     }
 }
