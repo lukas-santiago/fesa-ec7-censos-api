@@ -7,6 +7,7 @@ import com.censos.api.entity.StringResponse;
 import com.censos.api.entity.User;
 import com.censos.api.payload.LoginDTO;
 import com.censos.api.payload.SignUpDTO;
+import com.censos.api.payload.UserDTO;
 import com.censos.api.repository.RoleRepository;
 import com.censos.api.repository.UserRepository;
 
@@ -18,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,23 +42,30 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/signin")
-    public ResponseEntity<StringResponse> authenticateUser(@RequestBody LoginDTO loginDto) {
+    public ResponseEntity<UserDTO> authenticateUser(@RequestBody LoginDTO loginDto) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getUsernameOrEmail(), loginDto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<StringResponse>(new StringResponse("Usuário logado com sucesso!"), HttpStatus.OK);
+
+        User user = userRepository
+                .findByUsernameOrEmail(loginDto.getUsernameOrEmail(), loginDto.getPassword()).get();
+        UserDTO userDTO = new UserDTO(user.getName(), user.getUsername(), user.getEmail());
+
+        return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
     }
 
     @PostMapping("/signup")
     public ResponseEntity<StringResponse> registerUser(@RequestBody SignUpDTO signUpDto) {
 
         if (userRepository.existsByUsername(signUpDto.getUsername())) {
-            return new ResponseEntity<StringResponse>(new StringResponse("Nome de usuário já utilizado!"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<StringResponse>(new StringResponse("Nome de usuário já utilizado!"),
+                    HttpStatus.BAD_REQUEST);
         }
 
         if (userRepository.existsByEmail(signUpDto.getEmail())) {
-            return new ResponseEntity<StringResponse>(new StringResponse("Email já utilizado!"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<StringResponse>(new StringResponse("Email já utilizado!"),
+                    HttpStatus.BAD_REQUEST);
         }
 
         User user = new User();
@@ -72,5 +81,10 @@ public class AuthController {
 
         return new ResponseEntity<StringResponse>(new StringResponse("Usuário registrado com sucesso!"), HttpStatus.OK);
 
+    }
+
+    @GetMapping(value = "/logout")
+    public ResponseEntity<StringResponse> logout() {
+        return new ResponseEntity<StringResponse>(new StringResponse("Logout concluído com sucesso!"), HttpStatus.OK);
     }
 }
