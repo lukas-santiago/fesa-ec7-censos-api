@@ -1,9 +1,9 @@
 package com.censos.api.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.censos.api.entity.Field;
-import com.censos.api.entity.FormField;
+import com.censos.api.payload.FieldDTO;
 import com.censos.api.service.FieldService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +21,12 @@ public class FieldController {
     private final FieldService fieldService;
 
     @GetMapping(value = "/")
-    public List<Field> getAll() {
-        return fieldService.list();
+    public List<FieldDTO> getAll() {
+        return fieldService.list().stream().map(field -> new FieldDTO(field)).collect(Collectors.toList());
     }
 
     @GetMapping(value = "/{id}")
-    public Field getOne(@PathVariable Long id) {
-        return fieldService.get(id);
+    public FieldDTO getOne(@PathVariable Long id) {
+        return new FieldDTO(fieldService.get(id));
     }
 }

@@ -1,7 +1,6 @@
 package com.censos.api.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -10,7 +9,6 @@ import com.censos.api.entity.Form;
 import com.censos.api.entity.FormField;
 import com.censos.api.payload.FormFieldDTO;
 import com.censos.api.repository.FormFieldRepository;
-import com.censos.api.repository.FormRepository;
 
 import org.springframework.stereotype.Service;
 
@@ -26,23 +24,28 @@ public class FormFieldService {
     private final FieldService fieldService;
 
     public List<FormField> list(Long formId) {
-        return formFieldRepository.findAll();
+        Form form = formService.get(formId);
+        return formFieldRepository.findAllByForm(form);
     }
 
     public FormField create(FormFieldDTO formFieldDTO) {
         Form form = formService.get(formFieldDTO.getFormId());
         Field field = fieldService.get(formFieldDTO.getFieldId());
         FormField formField = new FormField(null, form, field, formFieldDTO.getDescription(), formFieldDTO.getData());
-
         return formFieldRepository.save(formField);
     }
 
     public FormField get(Long id) {
-        return null;
+        if (formFieldRepository.findById(id).isEmpty())
+            throw new RuntimeException("Form Field don't exists");
+
+        return formFieldRepository.findById(id).get();
     }
 
     public Boolean delete(Long id) {
-        return null;
+        formFieldRepository.deleteById(id);
+
+        return formFieldRepository.existsById(id);
     }
 
     public FormField update(FormField formField) {

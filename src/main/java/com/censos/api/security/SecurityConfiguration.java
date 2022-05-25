@@ -34,7 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()
                 .anyRequest()
                 .authenticated()
-
+                .and().cors()
                 .and()
                 .logout()
                 .logoutUrl("/perform_logout")

@@ -1,6 +1,7 @@
 package com.censos.api.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.censos.api.entity.Form;
 import com.censos.api.payload.FormDTO;
@@ -24,22 +25,25 @@ public class FormController {
 	private final FormService formService;
 
 	@GetMapping(value = "/")
-	public List<Form> getAll() {
-		return formService.list();
+	public List<FormDTO> getAll() {
+		return formService.list()
+				.stream().map(form -> new FormDTO(form))
+				.collect(Collectors.toList());
 	}
 
 	@PostMapping(value = "/")
-	public Form create(@RequestBody FormDTO form) {
-		return formService.create(Form.builder()
-				.name(form.getName())
-				.description(form.getDescription())
-				.expiredAt(form.getExpiredAt())
-				.build());
+	public FormDTO create(@RequestBody FormDTO formDTO) {
+		Form form = new Form();
+		form.setName(formDTO.getName());
+		form.setName(formDTO.getName());
+		form.setDescription(formDTO.getDescription());
+		form.setExpiredAt(formDTO.getExpiredAt());
+		return new FormDTO(formService.create(form));
 	}
 
 	@GetMapping(value = "/{id}")
-	public Form getOne(@PathVariable Long id) {
-		return formService.get(id);
+	public FormDTO getOne(@PathVariable Long id) {
+		return new FormDTO(formService.get(id));
 	}
 
 	@DeleteMapping(value = "/{id}")
@@ -48,12 +52,12 @@ public class FormController {
 	}
 
 	@PutMapping(value = "/")
-	public Form updateOne(@RequestBody FormDTO form) {
-		return formService.update(Form.builder()
-				.id(form.getId())
-				.name(form.getName())
-				.description(form.getDescription())
-				.expiredAt(form.getExpiredAt())
-				.build());
+	public FormDTO updateOne(@RequestBody FormDTO formDTO) {
+		Form form = new Form();
+		form.setId(formDTO.getId());
+		form.setName(formDTO.getName());
+		form.setDescription(formDTO.getDescription());
+		form.setExpiredAt(formDTO.getExpiredAt());
+		return new FormDTO(formService.update(form));
 	}
 }
