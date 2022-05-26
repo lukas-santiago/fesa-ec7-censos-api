@@ -9,6 +9,8 @@ import com.censos.api.entity.FormExecution;
 import com.censos.api.payload.FormExecutionDTO;
 import com.censos.api.repository.FormExecutionRepository;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,14 @@ public class FormExecutionService {
     private final FormFieldService formFieldService;
 
     public Collection<FormExecution> getAll(Long formId) {
-        return formExecutionRepository.findAllByFormId(formId);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+        return formExecutionRepository.findAllByUserAndByFormId(username, formId);
     }
 
     public FormExecution create(FormExecutionDTO formExecutionDTO) {

@@ -3,6 +3,7 @@ package com.censos.api.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.censos.api.entity.StringResponse;
 import com.censos.api.payload.FormExecutionDTO;
 import com.censos.api.service.FormExecutionService;
 
@@ -31,14 +32,26 @@ public class FormExecutionController {
 
         // return null;
     }
+
     @PostMapping(value = "/")
-	public FormExecutionDTO create(@RequestBody FormExecutionDTO formExecutionDTO) {
+    public FormExecutionDTO create(@RequestBody FormExecutionDTO formExecutionDTO) {
         // return null;
-		return new FormExecutionDTO(formExecutionService.create(formExecutionDTO));
-	}
+        return new FormExecutionDTO(formExecutionService.create(formExecutionDTO));
+    }
+
+    @PostMapping(value = "/many/{formId}")
+    public StringResponse createMany(@RequestBody List<FormExecutionDTO> formExecutionDTO, @PathVariable Long formId) {
+
+        // Collection<FormExecution> allFormExecution = formExecutionService.getAll(formId);
+        // allFormExecution.forEach(fe -> formExecutionService.delete(fe.getId()));
+        
+		formExecutionDTO.forEach(fe -> formExecutionService.create(fe));
+		return new StringResponse("Many formExecution created");
+    }
+
     @DeleteMapping(value = "/{id}")
-	public Boolean deleteOne(@PathVariable Long id) {
+    public Boolean deleteOne(@PathVariable Long id) {
         // return null;
-		return formExecutionService.delete(id);
-	}
+        return formExecutionService.delete(id);
+    }
 }

@@ -40,8 +40,8 @@ public class Application {
 				}
 
 				if (fieldRepository.findByType("Grau de Satisfação").isEmpty()) {
-					Field SatisfactionDegreefield = new Field(null, "Grau de Satisfação", null);
-					fieldRepository.save(SatisfactionDegreefield);
+					// Field SatisfactionDegreefield = new Field(null, "Grau de Satisfação", null);
+					// fieldRepository.save(SatisfactionDegreefield);
 				}
 			} catch (Exception e) {
 				System.err.println(e.getMessage());

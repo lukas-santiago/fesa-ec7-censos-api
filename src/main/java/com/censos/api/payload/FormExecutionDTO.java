@@ -1,6 +1,5 @@
 package com.censos.api.payload;
 
-import com.censos.api.entity.Auditable;
 import com.censos.api.entity.FormExecution;
 
 import lombok.Data;

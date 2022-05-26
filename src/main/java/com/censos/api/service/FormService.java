@@ -7,8 +7,6 @@ import javax.transaction.Transactional;
 import com.censos.api.entity.Form;
 import com.censos.api.repository.FormRepository;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -29,13 +27,13 @@ public class FormService {
     }
 
     public List<Form> list() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails) principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
+        // Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // String username;
+        // if (principal instanceof UserDetails) {
+        //     username = ((UserDetails) principal).getUsername();
+        // } else {
+        //     username = principal.toString();
+        // }
         return formRepository.findAll();
 
     }
